@@ -1,3 +1,6 @@
+import pymysql
+pymysql.install_as_MySQLdb()
+
 from crypt import methods
 from flask import Flask, render_template, current_app, make_response, request
 from flask_mail import Mail, Message
