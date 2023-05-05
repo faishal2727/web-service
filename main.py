@@ -326,7 +326,7 @@ class Login(Resource):
             return{ 'token' : token }, 200
 
         else:
-            return { "message" : "Wrong password" }
+            return { "message" : "Wrong password" }, 400
 
 
 @api.route('/user/current')
