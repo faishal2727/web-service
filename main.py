@@ -125,7 +125,7 @@ class User(db.Model):
     is_verify = db.Column(db.Integer(),nullable=False)
 
 parser4SignUp = reqparse.RequestParser()
-parser4SignUp.add_argument('name', type=str, help='Fullname', location='json', required=True)
+parser4SignUp.add_argument('name', type=str, help='name', location='json', required=True)
 parser4SignUp.add_argument('email', type=str, help='Email Address', location='json', required=True)
 parser4SignUp.add_argument('password', type=str, help='Password', location='json', required=True)
 parser4SignUp.add_argument('re_password', type=str, help='Retype Password', location='json', required=True)
