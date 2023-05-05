@@ -29,25 +29,37 @@ db = SQLAlchemy(app)
 
 mail = Mail(app)
 
+
 class Gas(db.Model):
     id = db.Column(db.Integer(),primary_key=True,nullable=False)
     gasName = db.Column(db.String(100),nullable=False)
-    noHp = db.Column(db.String(100),nullable=False)
-    minStock = db.Column(db.String(100),nullable=False)
-    size = db.Column(db.String(100),nullable=False)
+    image = db.Column(db.String(250), nullable=False)
+    size = db.Column(db.String(250),nullable=False)
+    currentStock = db.Column(db.String(250),nullable=False)
+    mustStock = db.Column(db.String(250),nullable=False)
+    minStock = db.Column(db.String(250),nullable=False)
+    noHpDist = db.Column(db.String(250),nullable=False)
+
     def serialize(row):
         return {
             "id" : str(row.id),
             "gasName" : row.gasName,
-
+            "image": row.image,
+            "size": row.size,
+            "currentStock": row.currentStock,
+            "mustStock": row.mustStock,
+            "minStock": row.minStock,
+            "noHpDist": row.noHpDist
         } 
-
 
 parser4ListGas = reqparse.RequestParser()
 parser4ListGas.add_argument('gasName', type=str, help='gasName', location='json', required=True)
-parser4ListGas.add_argument('noHp', type=str, help='noHp', location='json', required=True)
-parser4ListGas.add_argument('minStock', type=str, help='minStock', location='json', required=True)
+parser4ListGas.add_argument('image', type=str, help='image', location='json', required=True)
 parser4ListGas.add_argument('size', type=str, help='size', location='json', required=True)
+parser4ListGas.add_argument('currentStock', type=str, help='currentStock', location='json', required=True)
+parser4ListGas.add_argument('mustStock', type=str, help='mustStock', location='json', required=True)
+parser4ListGas.add_argument('minStock', type=str, help='minStock', location='json', required=True)
+parser4ListGas.add_argument('noHpDist', type=str, help='noHpDist', location='json', required=True)
 
 @api.route('/gas')
 class NewGas(Resource):
@@ -55,12 +67,15 @@ class NewGas(Resource):
     def post(self):
         args = parser4ListGas.parse_args()
         gasName = args['gasName']
-        noHp = args['noHp']
-        minStock = args['minStock']
+        image = args['image']
         size = args['size']
-
+        currentStock = args['currentStock']
+        mustStock = args['mustStock']
+        minStock = args['minStock']
+        noHpDist = args['noHpDist']
+        
         try:
-            gas = Gas(gasName=gasName, noHp=noHp, minStock=minStock, size=size)
+            gas = Gas(gasName=gasName, image=image,  size=size, currentStock=currentStock, mustStock=mustStock, minStock=minStock, noHpDist=noHpDist)
 
             db.session.add(gas)
             db.session.commit()
@@ -74,7 +89,8 @@ class NewGas(Resource):
                 'message' : f"Error {e}"
             }, 500
 
-# ######### Get All Gas ############
+
+######### Get All Gas ############
 
 @api.route("/list/gas")
 class GetAllGass(Resource):
@@ -97,6 +113,7 @@ class GetAllGass(Resource):
         except Exception as e:
             print(f"{e}")
             return {'message': f'Failed {e}'}, 400
+
 
 
 # ######### Create Inventory Gas ###################
