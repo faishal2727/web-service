@@ -29,50 +29,50 @@ db = SQLAlchemy(app)
 
 mail = Mail(app)
 
-# class Gas(db.Model):
-#     id = db.Column(db.Integer(),primary_key=True,nullable=False)
-#     gasName = db.Column(db.String(100),nullable=False)
-#     noHp = db.Column(db.String(100),nullable=False)
-#     minStock = db.Column(db.String(100),nullable=False)
-#     size = db.Column(db.String(100),nullable=False)
-#     def serialize(row):
-#         return {
-#             "id" : str(row.id),
-#             "gasName" : row.gasName,
+class Gas(db.Model):
+    id = db.Column(db.Integer(),primary_key=True,nullable=False)
+    gasName = db.Column(db.String(100),nullable=False)
+    noHp = db.Column(db.String(100),nullable=False)
+    minStock = db.Column(db.String(100),nullable=False)
+    size = db.Column(db.String(100),nullable=False)
+    def serialize(row):
+        return {
+            "id" : str(row.id),
+            "gasName" : row.gasName,
 
-#         } 
+        } 
 
 
-# parser4ListGas = reqparse.RequestParser()
-# parser4ListGas.add_argument('gasName', type=str, help='gasName', location='json', required=True)
-# parser4ListGas.add_argument('noHp', type=str, help='noHp', location='json', required=True)
-# parser4ListGas.add_argument('minStock', type=str, help='minStock', location='json', required=True)
-# parser4ListGas.add_argument('size', type=str, help='size', location='json', required=True)
+parser4ListGas = reqparse.RequestParser()
+parser4ListGas.add_argument('gasName', type=str, help='gasName', location='json', required=True)
+parser4ListGas.add_argument('noHp', type=str, help='noHp', location='json', required=True)
+parser4ListGas.add_argument('minStock', type=str, help='minStock', location='json', required=True)
+parser4ListGas.add_argument('size', type=str, help='size', location='json', required=True)
 
-# @api.route('/list/gas')
-# class NewGas(Resource):
-#     @api.expect(parser4ListGas)
-#     def post(self):
-#         args = parser4ListGas.parse_args()
-#         gasName = args['gasName']
-#         noHp = args['noHp']
-#         minStock = args['minStock']
-#         size = args['size']
+@api.route('/list/gas')
+class NewGas(Resource):
+    @api.expect(parser4ListGas)
+    def post(self):
+        args = parser4ListGas.parse_args()
+        gasName = args['gasName']
+        noHp = args['noHp']
+        minStock = args['minStock']
+        size = args['size']
 
-#         try:
-#             gas = Gas(gasName=gasName, noHp=noHp, minStock=minStock, size=size)
+        try:
+            gas = Gas(gasName=gasName, noHp=noHp, minStock=minStock, size=size)
 
-#             db.session.add(gas)
-#             db.session.commit()
+            db.session.add(gas)
+            db.session.commit()
 
-#             return {
-#                 'message' : "Succes"
-#             }, 201
-#         except Exception as e:
-#             print(e)
-#             return {
-#                 'message' : f"Error {e}"
-#             }, 500
+            return {
+                'message' : "Succes"
+            }, 201
+        except Exception as e:
+            print(e)
+            return {
+                'message' : f"Error {e}"
+            }, 500
 
 
 # ############## Create List Gas ##########
