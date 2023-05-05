@@ -24,14 +24,6 @@
         margin-bottom: 10px;
     }
 
-    .success {
-        color: #88B04B;
-    }
-
-    .failed {
-        color: #c74231;
-    }
-
     p {
         color: #404F5E;
         font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
@@ -67,7 +59,7 @@
     <body>
         <div class="card">
             <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
-                <i class="{{ 'checkmark' if success else 'cross' }}">{{ 'https://res.cloudinary.com/dgbbqp56b/image/upload/v1683257093/success_tiqwnc.png' if success else '✗' }}</i>
+               <img src="https://res.cloudinary.com/dgbbqp56b/image/upload/v1683257093/success_tiqwnc.png">
             </div>
             <h1 class="{{'success' if success else 'failed'}}">{{'Success' if success else 'Failed'}}</h1>
             <p>{{message}}</p>
