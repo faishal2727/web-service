@@ -238,7 +238,7 @@ class GetAllInventory(Resource):
             return {'message': f'Failed {e}'}, 400
 
 
-######## auth ########3
+######## auth ########
 
 class User(db.Model):
     id = db.Column(db.Integer(),primary_key=True,nullable=False)
