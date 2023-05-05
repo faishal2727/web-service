@@ -79,41 +79,164 @@ class NewGas(Resource):
             }, 500
 
 
-# parser4Gas = reqparse.RequestParser()
-# parser4Gas.add_argument('Authorization', type=str, help='', location='headers', required=True) 
+############## Create List Gas ##########
 
-@api.route("/gas")
-class GetAllGass(Resource):
-    def get(self):
-        # args = parser4Gas.parse_args()
-        # bearerAuth = args['Authorization']
-        # jwtToken = bearerAuth[7:]
 
-        # payload = jwt.decode(jwtToken,"Faizal",algorithms=['HS256'])
-        # user = db.session.execute(db.select(Auth).filter_by(email=payload["email"])).first()
-        # if not user:
-        #     return {
-        #         "message" : "Whats??"
-        #     },400
+class Gas(db.Model):
+    id = db.Column(db.Integer(),primary_key=True,nullable=False)
+    gasName = db.Column(db.String(100),nullable=False)
+    image = db.Column(db.String(250), nullable=False)
+    size = db.Column(db.String(250),nullable=False)
+    currentStock = db.Column(db.String(250),nullable=False)
+    mustStock = db.Column(db.String(250),nullable=False)
+    minStock = db.Column(db.String(250),nullable=False)
+    noHpDist = db.Column(db.String(250),nullable=False)
+
+    def serialize(row):
+        return {
+            "id" : str(row.id),
+            "gasName" : row.gasName,
+            "image": row.image,
+            "size": row.size,
+            "currentStock": row.currentStock,
+            "mustStock": row.mustStock,
+            "minStock": row.minStock,
+            "noHpDist": row.noHpDist
+        } 
+
+parser4ListGas = reqparse.RequestParser()
+parser4ListGas.add_argument('gasName', type=str, help='gasName', location='json', required=True)
+parser4ListGas.add_argument('image', type=str, help='image', location='json', required=True)
+parser4ListGas.add_argument('size', type=str, help='size', location='json', required=True)
+parser4ListGas.add_argument('currentStock', type=str, help='currentStock', location='json', required=True)
+parser4ListGas.add_argument('mustStock', type=str, help='mustStock', location='json', required=True)
+parser4ListGas.add_argument('minStock', type=str, help='minStock', location='json', required=True)
+parser4ListGas.add_argument('noHpDist', type=str, help='noHpDist', location='json', required=True)
+
+@api.route('/gas')
+class NewGas(Resource):
+    @api.expect(parser4ListGas)
+    def post(self):
+        args = parser4ListGas.parse_args()
+        gasName = args['gasName']
+        image = args['image']
+        size = args['size']
+        currentStock = args['currentStock']
+        mustStock = args['mustStock']
+        minStock = args['minStock']
+        noHpDist = args['noHpDist']
         
         try:
-            
-            student = db.session.execute(db.select(Gas)
+            gas = Gas(gasName=gasName, image=image,  size=size, currentStock=currentStock, mustStock=mustStock, minStock=minStock, noHpDist=noHpDist)
+
+            db.session.add(gas)
+            db.session.commit()
+
+            return {
+                'message' : "Succes"
+            }, 201
+        except Exception as e:
+            print(e)
+            return {
+                'message' : f"Error {e}"
+            }, 500
+
+
+######### Get All Gas ############
+
+@api.route("/list/gas")
+class GetAllGass(Resource):
+    def get(self):
+
+        try:
+            gas = db.session.execute(db.select(Gas)
             .order_by(Gas.id))
 
-            students = Gas.query.all()
-            studentx = [Gas.serialize(x) for x in students]
+            gasX = Gas.query.all()
+            gasY = [Gas.serialize(x) for x in gasX]
             
             return make_response(
                 {
-                    "message":"Success",
-                    "data": studentx
+                    "message":"Success Get All Data",
+                    "data": gasY
                 },200
             )
                
         except Exception as e:
             print(f"{e}")
             return {'message': f'Failed {e}'}, 400
+
+
+######### Create Inventory Gas ###################
+
+class Inventory(db.Model):
+    id = db.Column(db.Integer(), primary_key=True,nullable=False)
+    gasIjo = db.Column(db.String(250), nullable=False)
+    brightGas = db.Column(db.String(250), nullable=False)
+    blueGas = db.Column(db.String(250), nullable=False)
+
+    def serialize(row):
+        return{
+            "id" : str(row.id),
+            "gasIjo" : str(row.gasIjo),
+            "blueGas" : str(row.brightGas),
+            "brightGas" : str(row.blueGas)
+        }
+
+parser4Inventory = reqparse.RequestParser()
+parser4Inventory.add_argument('gasIjo', type=str, help='gasIjo', location='json', required=True)
+parser4Inventory.add_argument('brightGas', type=str, help='brightGas', location='json', required=True)
+parser4Inventory.add_argument('blueGas', type=str, help='blueGas', location='json', required=True)
+
+@api.route('/inventory')
+class CreateInventory(Resource):
+    @api.expect(parser4Inventory)
+    def post(self):
+        args = parser4Inventory.parse_args()
+        gasIjo = args['gasIjo']
+        brightGas = args['brightGas']
+        blueGas = args['blueGas']
+        
+        try:
+            inventory = Inventory(gasIjo=gasIjo, brightGas=brightGas, blueGas=blueGas)
+
+            db.session.add(inventory)
+            db.session.commit()
+
+            return {
+                'message' : "Succes"
+            }, 201
+        except Exception as e:
+            print(e)
+            return {
+                'message' : f"Error {e}"
+            }, 500
+
+
+############## Get All Inventory ###########
+
+@api.route("/list/inventory")
+class GetAllInventory(Resource):
+    def get(self):
+
+        try:
+            inventory = db.session.execute(db.select(Inventory)
+            .order_by(Inventory.id))
+
+            inventoryX = Inventory.query.all()
+            inventoryY = [Inventory.serialize(x) for x in inventoryX]
+            
+            return make_response(
+                {
+                    "message":"Success Get All Data",
+                    "data": inventoryY
+                },200
+            )
+               
+        except Exception as e:
+            print(f"{e}")
+            return {'message': f'Failed {e}'}, 400
+
 
 ######## auth ########3
 
