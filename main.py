@@ -1,7 +1,6 @@
 import pymysql
 pymysql.install_as_MySQLdb()
 
-
 from crypt import methods
 from flask import Flask, render_template, current_app, make_response, request
 from flask_mail import Mail, Message
@@ -30,212 +29,209 @@ db = SQLAlchemy(app)
 
 mail = Mail(app)
 
+# class Gas(db.Model):
+#     id = db.Column(db.Integer(),primary_key=True,nullable=False)
+#     gasName = db.Column(db.String(100),nullable=False)
+#     noHp = db.Column(db.String(100),nullable=False)
+#     minStock = db.Column(db.String(100),nullable=False)
+#     size = db.Column(db.String(100),nullable=False)
+#     def serialize(row):
+#         return {
+#             "id" : str(row.id),
+#             "gasName" : row.gasName,
+
+#         } 
 
 
+# parser4ListGas = reqparse.RequestParser()
+# parser4ListGas.add_argument('gasName', type=str, help='gasName', location='json', required=True)
+# parser4ListGas.add_argument('noHp', type=str, help='noHp', location='json', required=True)
+# parser4ListGas.add_argument('minStock', type=str, help='minStock', location='json', required=True)
+# parser4ListGas.add_argument('size', type=str, help='size', location='json', required=True)
 
-class Gas(db.Model):
-    id = db.Column(db.Integer(),primary_key=True,nullable=False)
-    gasName = db.Column(db.String(100),nullable=False)
-    noHp = db.Column(db.String(100),nullable=False)
-    minStock = db.Column(db.String(100),nullable=False)
-    size = db.Column(db.String(100),nullable=False)
-    def serialize(row):
-        return {
-            "id" : str(row.id),
-            "gasName" : row.gasName,
+# @api.route('/list/gas')
+# class NewGas(Resource):
+#     @api.expect(parser4ListGas)
+#     def post(self):
+#         args = parser4ListGas.parse_args()
+#         gasName = args['gasName']
+#         noHp = args['noHp']
+#         minStock = args['minStock']
+#         size = args['size']
 
-        } 
+#         try:
+#             gas = Gas(gasName=gasName, noHp=noHp, minStock=minStock, size=size)
 
+#             db.session.add(gas)
+#             db.session.commit()
 
-parser4ListGas = reqparse.RequestParser()
-parser4ListGas.add_argument('gasName', type=str, help='gasName', location='json', required=True)
-parser4ListGas.add_argument('noHp', type=str, help='noHp', location='json', required=True)
-parser4ListGas.add_argument('minStock', type=str, help='minStock', location='json', required=True)
-parser4ListGas.add_argument('size', type=str, help='size', location='json', required=True)
-
-@api.route('/list/gas')
-class NewGas(Resource):
-    @api.expect(parser4ListGas)
-    def post(self):
-        args = parser4ListGas.parse_args()
-        gasName = args['gasName']
-        noHp = args['noHp']
-        minStock = args['minStock']
-        size = args['size']
-
-        try:
-            gas = Gas(gasName=gasName, noHp=noHp, minStock=minStock, size=size)
-
-            db.session.add(gas)
-            db.session.commit()
-
-            return {
-                'message' : "Succes"
-            }, 201
-        except Exception as e:
-            print(e)
-            return {
-                'message' : f"Error {e}"
-            }, 500
+#             return {
+#                 'message' : "Succes"
+#             }, 201
+#         except Exception as e:
+#             print(e)
+#             return {
+#                 'message' : f"Error {e}"
+#             }, 500
 
 
-############## Create List Gas ##########
+# ############## Create List Gas ##########
 
 
-class Gas(db.Model):
-    id = db.Column(db.Integer(),primary_key=True,nullable=False)
-    gasName = db.Column(db.String(100),nullable=False)
-    image = db.Column(db.String(250), nullable=False)
-    size = db.Column(db.String(250),nullable=False)
-    currentStock = db.Column(db.String(250),nullable=False)
-    mustStock = db.Column(db.String(250),nullable=False)
-    minStock = db.Column(db.String(250),nullable=False)
-    noHpDist = db.Column(db.String(250),nullable=False)
+# class Gas(db.Model):
+#     id = db.Column(db.Integer(),primary_key=True,nullable=False)
+#     gasName = db.Column(db.String(100),nullable=False)
+#     image = db.Column(db.String(250), nullable=False)
+#     size = db.Column(db.String(250),nullable=False)
+#     currentStock = db.Column(db.String(250),nullable=False)
+#     mustStock = db.Column(db.String(250),nullable=False)
+#     minStock = db.Column(db.String(250),nullable=False)
+#     noHpDist = db.Column(db.String(250),nullable=False)
 
-    def serialize(row):
-        return {
-            "id" : str(row.id),
-            "gasName" : row.gasName,
-            "image": row.image,
-            "size": row.size,
-            "currentStock": row.currentStock,
-            "mustStock": row.mustStock,
-            "minStock": row.minStock,
-            "noHpDist": row.noHpDist
-        } 
+#     def serialize(row):
+#         return {
+#             "id" : str(row.id),
+#             "gasName" : row.gasName,
+#             "image": row.image,
+#             "size": row.size,
+#             "currentStock": row.currentStock,
+#             "mustStock": row.mustStock,
+#             "minStock": row.minStock,
+#             "noHpDist": row.noHpDist
+#         } 
 
-parser4ListGas = reqparse.RequestParser()
-parser4ListGas.add_argument('gasName', type=str, help='gasName', location='json', required=True)
-parser4ListGas.add_argument('image', type=str, help='image', location='json', required=True)
-parser4ListGas.add_argument('size', type=str, help='size', location='json', required=True)
-parser4ListGas.add_argument('currentStock', type=str, help='currentStock', location='json', required=True)
-parser4ListGas.add_argument('mustStock', type=str, help='mustStock', location='json', required=True)
-parser4ListGas.add_argument('minStock', type=str, help='minStock', location='json', required=True)
-parser4ListGas.add_argument('noHpDist', type=str, help='noHpDist', location='json', required=True)
+# parser4ListGas = reqparse.RequestParser()
+# parser4ListGas.add_argument('gasName', type=str, help='gasName', location='json', required=True)
+# parser4ListGas.add_argument('image', type=str, help='image', location='json', required=True)
+# parser4ListGas.add_argument('size', type=str, help='size', location='json', required=True)
+# parser4ListGas.add_argument('currentStock', type=str, help='currentStock', location='json', required=True)
+# parser4ListGas.add_argument('mustStock', type=str, help='mustStock', location='json', required=True)
+# parser4ListGas.add_argument('minStock', type=str, help='minStock', location='json', required=True)
+# parser4ListGas.add_argument('noHpDist', type=str, help='noHpDist', location='json', required=True)
 
-@api.route('/gas')
-class NewGas(Resource):
-    @api.expect(parser4ListGas)
-    def post(self):
-        args = parser4ListGas.parse_args()
-        gasName = args['gasName']
-        image = args['image']
-        size = args['size']
-        currentStock = args['currentStock']
-        mustStock = args['mustStock']
-        minStock = args['minStock']
-        noHpDist = args['noHpDist']
+# @api.route('/gas')
+# class NewGas(Resource):
+#     @api.expect(parser4ListGas)
+#     def post(self):
+#         args = parser4ListGas.parse_args()
+#         gasName = args['gasName']
+#         image = args['image']
+#         size = args['size']
+#         currentStock = args['currentStock']
+#         mustStock = args['mustStock']
+#         minStock = args['minStock']
+#         noHpDist = args['noHpDist']
         
-        try:
-            gas = Gas(gasName=gasName, image=image,  size=size, currentStock=currentStock, mustStock=mustStock, minStock=minStock, noHpDist=noHpDist)
+#         try:
+#             gas = Gas(gasName=gasName, image=image,  size=size, currentStock=currentStock, mustStock=mustStock, minStock=minStock, noHpDist=noHpDist)
 
-            db.session.add(gas)
-            db.session.commit()
+#             db.session.add(gas)
+#             db.session.commit()
 
-            return {
-                'message' : "Succes"
-            }, 201
-        except Exception as e:
-            print(e)
-            return {
-                'message' : f"Error {e}"
-            }, 500
+#             return {
+#                 'message' : "Succes"
+#             }, 201
+#         except Exception as e:
+#             print(e)
+#             return {
+#                 'message' : f"Error {e}"
+#             }, 500
 
 
-######### Get All Gas ############
+# ######### Get All Gas ############
 
-@api.route("/list/gas")
-class GetAllGass(Resource):
-    def get(self):
+# @api.route("/list/gas")
+# class GetAllGass(Resource):
+#     def get(self):
 
-        try:
-            gas = db.session.execute(db.select(Gas)
-            .order_by(Gas.id))
+#         try:
+#             gas = db.session.execute(db.select(Gas)
+#             .order_by(Gas.id))
 
-            gasX = Gas.query.all()
-            gasY = [Gas.serialize(x) for x in gasX]
+#             gasX = Gas.query.all()
+#             gasY = [Gas.serialize(x) for x in gasX]
             
-            return make_response(
-                {
-                    "message":"Success Get All Data",
-                    "data": gasY
-                },200
-            )
+#             return make_response(
+#                 {
+#                     "message":"Success Get All Data",
+#                     "data": gasY
+#                 },200
+#             )
                
-        except Exception as e:
-            print(f"{e}")
-            return {'message': f'Failed {e}'}, 400
+#         except Exception as e:
+#             print(f"{e}")
+#             return {'message': f'Failed {e}'}, 400
 
 
-######### Create Inventory Gas ###################
+# ######### Create Inventory Gas ###################
 
-class Inventory(db.Model):
-    id = db.Column(db.Integer(), primary_key=True,nullable=False)
-    gasIjo = db.Column(db.String(250), nullable=False)
-    brightGas = db.Column(db.String(250), nullable=False)
-    blueGas = db.Column(db.String(250), nullable=False)
+# class Inventory(db.Model):
+#     id = db.Column(db.Integer(), primary_key=True,nullable=False)
+#     gasIjo = db.Column(db.String(250), nullable=False)
+#     brightGas = db.Column(db.String(250), nullable=False)
+#     blueGas = db.Column(db.String(250), nullable=False)
 
-    def serialize(row):
-        return{
-            "id" : str(row.id),
-            "gasIjo" : str(row.gasIjo),
-            "blueGas" : str(row.brightGas),
-            "brightGas" : str(row.blueGas)
-        }
+#     def serialize(row):
+#         return{
+#             "id" : str(row.id),
+#             "gasIjo" : str(row.gasIjo),
+#             "blueGas" : str(row.brightGas),
+#             "brightGas" : str(row.blueGas)
+#         }
 
-parser4Inventory = reqparse.RequestParser()
-parser4Inventory.add_argument('gasIjo', type=str, help='gasIjo', location='json', required=True)
-parser4Inventory.add_argument('brightGas', type=str, help='brightGas', location='json', required=True)
-parser4Inventory.add_argument('blueGas', type=str, help='blueGas', location='json', required=True)
+# parser4Inventory = reqparse.RequestParser()
+# parser4Inventory.add_argument('gasIjo', type=str, help='gasIjo', location='json', required=True)
+# parser4Inventory.add_argument('brightGas', type=str, help='brightGas', location='json', required=True)
+# parser4Inventory.add_argument('blueGas', type=str, help='blueGas', location='json', required=True)
 
-@api.route('/inventory')
-class CreateInventory(Resource):
-    @api.expect(parser4Inventory)
-    def post(self):
-        args = parser4Inventory.parse_args()
-        gasIjo = args['gasIjo']
-        brightGas = args['brightGas']
-        blueGas = args['blueGas']
+# @api.route('/inventory')
+# class CreateInventory(Resource):
+#     @api.expect(parser4Inventory)
+#     def post(self):
+#         args = parser4Inventory.parse_args()
+#         gasIjo = args['gasIjo']
+#         brightGas = args['brightGas']
+#         blueGas = args['blueGas']
         
-        try:
-            inventory = Inventory(gasIjo=gasIjo, brightGas=brightGas, blueGas=blueGas)
+#         try:
+#             inventory = Inventory(gasIjo=gasIjo, brightGas=brightGas, blueGas=blueGas)
 
-            db.session.add(inventory)
-            db.session.commit()
+#             db.session.add(inventory)
+#             db.session.commit()
 
-            return {
-                'message' : "Succes"
-            }, 201
-        except Exception as e:
-            print(e)
-            return {
-                'message' : f"Error {e}"
-            }, 500
+#             return {
+#                 'message' : "Succes"
+#             }, 201
+#         except Exception as e:
+#             print(e)
+#             return {
+#                 'message' : f"Error {e}"
+#             }, 500
 
 
-############## Get All Inventory ###########
+# ############## Get All Inventory ###########
 
-@api.route("/list/inventory")
-class GetAllInventory(Resource):
-    def get(self):
+# @api.route("/list/inventory")
+# class GetAllInventory(Resource):
+#     def get(self):
 
-        try:
-            inventory = db.session.execute(db.select(Inventory)
-            .order_by(Inventory.id))
+#         try:
+#             inventory = db.session.execute(db.select(Inventory)
+#             .order_by(Inventory.id))
 
-            inventoryX = Inventory.query.all()
-            inventoryY = [Inventory.serialize(x) for x in inventoryX]
+#             inventoryX = Inventory.query.all()
+#             inventoryY = [Inventory.serialize(x) for x in inventoryX]
             
-            return make_response(
-                {
-                    "message":"Success Get All Data",
-                    "data": inventoryY
-                },200
-            )
+#             return make_response(
+#                 {
+#                     "message":"Success Get All Data",
+#                     "data": inventoryY
+#                 },200
+#             )
                
-        except Exception as e:
-            print(f"{e}")
-            return {'message': f'Failed {e}'}, 400
+#         except Exception as e:
+#             print(f"{e}")
+#             return {'message': f'Failed {e}'}, 400
 
 
 ######## auth ########
