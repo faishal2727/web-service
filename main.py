@@ -384,7 +384,7 @@ class ForgetPassword(Resource):
 
             jwt_secret_key = current_app.config.get("JWT_SECRET_KEY", "Rahasia")
 
-            email_token = jwt.encode({"id": user[0].id}, jwt_secret_key, algorithm="HS256").decode("utf-8")
+            email_token = jwt.encode({"id": user[0].id}, jwt_secret_key, algorithm="HS256")
 
             url = f"https://web-service-production-1263.up.railway.app/user/reset-password/{email_token}"
 
