@@ -323,7 +323,9 @@ class Login(Resource):
             jwt_secret_key = current_app.config.get("JWT_SECRET_KEY", "Rahasia")
             print(f"INFO {jwt_secret_key}")
             token = jwt.encode(payload, jwt_secret_key, algorithm="HS256")
-            return{ 'token' : token }, 200
+            return{ 
+                "message" : "Success login",
+                'token' : token }, 200
 
         else:
             return { "message" : "Wrong password" }, 400
