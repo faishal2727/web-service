@@ -361,8 +361,8 @@ class WhoIsLogin(Resource):
         except jwt.InvalidTokenError:
             return {'message': 'Invalid token'}, 401
 
-
-
+            
+##############
 user_parser = reqparse.RequestParser()
 user_parser.add_argument('name', type=str, help='Fullname', location='json', required=False)
 user_parser.add_argument('email', type=str, help='Email Address', location='json', required=False)
