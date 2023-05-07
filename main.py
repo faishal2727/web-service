@@ -333,44 +333,6 @@ class UpdateUser(Resource):
         except jwt.InvalidTokenError:
             return {'message': 'Invalid token'}, 401
 
-user_parser = reqparse.RequestParser()
-user_parser.add_argument('name', type=str, help='Fullname', location='json', required=True)
-user_parser.add_argument('email', type=str, help='Email Address', location='json', required=True)
-
-@api.route('/user/update')
-class UpdateUser(Resource):
-    def put(self):
-        token = request.headers.get('Authorization', '').replace('Bearer ', '')
-        try:
-            decoded_token = jwt.decode(token, key="Rahasia", algorithms=["HS256"])
-            user_id = decoded_token["id"]
-            user = db.session.execute(db.select(User).filter_by(id=user_id)).first()
-            
-            if not user:
-                return {'message': 'User not found'}, 404
-
-            user = user[0]
-
-            args = user_parser.parse_args()
-
-            user.name = args['name']
-            user.email = args['email']
-
-            db.session.commit()
-
-            try:
-                db.session.commit()
-                return {'message': 'Profile updated successfully'}, 200
-            except:
-                db.session.rollback()
-                return {'message': 'Profile update failed'}, 400
-
-        except jwt.ExpiredSignatureError:
-            return {'message': 'Token is expired'}, 401
-
-        except jwt.InvalidTokenError:
-            return {'message': 'Invalid token'}, 401
-
 forgot_password_parser = reqparse.RequestParser()
 forgot_password_parser.add_argument('email', type=str, help='Email Address', location='json', required=True)
 
