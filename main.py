@@ -115,78 +115,6 @@ class GetAllGass(Resource):
             return {'message': f'Failed {e}'}, 400
 
 
-
-# ######### Create Inventory Gas ###################
-
-# class Inventory(db.Model):
-#     id = db.Column(db.Integer(), primary_key=True,nullable=False)
-#     gasIjo = db.Column(db.String(250), nullable=False)
-#     brightGas = db.Column(db.String(250), nullable=False)
-#     blueGas = db.Column(db.String(250), nullable=False)
-
-#     def serialize(row):
-#         return{
-#             "id" : str(row.id),
-#             "gasIjo" : str(row.gasIjo),
-#             "blueGas" : str(row.brightGas),
-#             "brightGas" : str(row.blueGas)
-#         }
-
-# parser4Inventory = reqparse.RequestParser()
-# parser4Inventory.add_argument('gasIjo', type=str, help='gasIjo', location='json', required=True)
-# parser4Inventory.add_argument('brightGas', type=str, help='brightGas', location='json', required=True)
-# parser4Inventory.add_argument('blueGas', type=str, help='blueGas', location='json', required=True)
-
-# @api.route('/inventory')
-# class CreateInventory(Resource):
-#     @api.expect(parser4Inventory)
-#     def post(self):
-#         args = parser4Inventory.parse_args()
-#         gasIjo = args['gasIjo']
-#         brightGas = args['brightGas']
-#         blueGas = args['blueGas']
-        
-#         try:
-#             inventory = Inventory(gasIjo=gasIjo, brightGas=brightGas, blueGas=blueGas)
-
-#             db.session.add(inventory)
-#             db.session.commit()
-
-#             return {
-#                 'message' : "Succes"
-#             }, 201
-#         except Exception as e:
-#             print(e)
-#             return {
-#                 'message' : f"Error {e}"
-#             }, 500
-
-
-# ############## Get All Inventory ###########
-
-# @api.route("/list/inventory")
-# class GetAllInventory(Resource):
-#     def get(self):
-
-#         try:
-#             inventory = db.session.execute(db.select(Inventory)
-#             .order_by(Inventory.id))
-
-#             inventoryX = Inventory.query.all()
-#             inventoryY = [Inventory.serialize(x) for x in inventoryX]
-            
-#             return make_response(
-#                 {
-#                     "message":"Success Get All Data",
-#                     "data": inventoryY
-#                 },200
-#             )
-               
-#         except Exception as e:
-#             print(f"{e}")
-#             return {'message': f'Failed {e}'}, 400
-
-
 ######## auth ########
 
 class User(db.Model):
@@ -324,7 +252,7 @@ class Login(Resource):
             print(f"INFO {jwt_secret_key}")
             token = jwt.encode(payload, jwt_secret_key, algorithm="HS256")
             return{ 
-                "message" : "Success login",
+                "message" : "Suksess Masuk NIIH",
                 'token' : token }, 200
 
         else:
