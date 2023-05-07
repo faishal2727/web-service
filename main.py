@@ -364,8 +364,8 @@ class WhoIsLogin(Resource):
 
 
 user_parser = reqparse.RequestParser()
-user_parser.add_argument('name', type=str, help='Fullname', location='json', required=True)
-user_parser.add_argument('email', type=str, help='Email Address', location='json', required=True)
+user_parser.add_argument('name', type=str, help='Fullname', location='json', required=False)
+user_parser.add_argument('email', type=str, help='Email Address', location='json', required=False)
 
 @api.route('/user/update')
 class UpdateUser(Resource):
@@ -382,9 +382,12 @@ class UpdateUser(Resource):
             user = user[0]
 
             args = user_parser.parse_args()
-
-            user.name = args['name']
-            user.email = args['email']
+            name = args['name']
+            email = args['email']
+            if name is not None and name != "":
+                user.name = name
+            if email is not None and email != "":
+                user.email = email
 
             db.session.commit()
 
