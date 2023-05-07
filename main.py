@@ -361,7 +361,7 @@ class WhoIsLogin(Resource):
         except jwt.InvalidTokenError:
             return {'message': 'Invalid token'}, 401
 
-            
+
 ##############
 user_parser = reqparse.RequestParser()
 user_parser.add_argument('name', type=str, help='Fullname', location='json', required=False)
@@ -386,7 +386,7 @@ class UpdateUser(Resource):
             email = args['email']
             if name is not None and name != "":
                 user.name = name
-            if email is not None and email != "":
+            if email is not None and email !="":
                 user.email = email
 
             db.session.commit()
