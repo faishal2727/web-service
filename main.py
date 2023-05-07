@@ -312,9 +312,10 @@ class UpdateUser(Resource):
             args = user_parser.parse_args()
             name = args['name']
             email = args['email']
+
             if name is not None and name != "":
                 user.name = name
-            if email is not None and email !="":
+            if email is not None and email != "":
                 user.email = email
 
             db.session.commit()
