@@ -115,6 +115,54 @@ class GetAllGass(Resource):
             return {'message': f'Failed {e}'}, 400
 
 
+#### create inventory ########
+
+class Inventory(db.Model):
+    id = db.Column(db.Integer(),primary_key=True,nullable=False)
+    gasIjo = db.Column(db.String(100),nullable=False)
+    brightGas = db.Column(db.String(250), nullable=False)
+    blueGas = db.Column(db.String(250),nullable=False)
+
+    def serialize(row):
+        return {
+            "id" : str(row.id),
+            "gas" : row.gasIjo,
+            "brightGas" : row.brightGas,
+            "blueGas": row.blueGas
+        } 
+
+parser4ListGas = reqparse.RequestParser()
+parser4ListGas.add_argument('gasIjo', type=str, help='gasIjo', location='json', required=True)
+parser4ListGas.add_argument('brightGas', type=str, help='brightGas', location='json', required=True)
+parser4ListGas.add_argument('blueGas', type=str, help='blueGas', location='json', required=True)
+
+@api.route('/inventory')
+class NewInventory(Resource):
+    @api.expect(parser4ListGas)
+    def post(self):
+        args = parser4ListGas.parse_args()
+        gasIjo = args['gasIjo']
+        brightGas = args['brightGas']
+        blueGas = args['blueGas']
+        
+        try:
+            inventory = Inventory(gasIjo=gasIjo, brightGas=brightGas,  blueGas=blueGas)
+
+            db.session.add(inventory)
+            db.session.commit()
+
+            return {
+                'message' : "Succes Created Data"
+            }, 201
+        except Exception as e:
+            print(e)
+            return {
+                'message' : f"Error {e}"
+            }, 500
+
+
+
+
 ######## auth ########
 
 class User(db.Model):
