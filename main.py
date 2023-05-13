@@ -161,6 +161,32 @@ class NewInventory(Resource):
             }, 500
 
 
+######### Get All Inventory ############
+
+@api.route("/list/inventory")
+class GetAllInventory(Resource):
+    def get(self):
+
+        try:
+            inventory = db.session.execute(db.select(Inventory)
+            .order_by(Inventory.id))
+
+            InventoryX = Inventory.query.all()
+            InventoryY = [Inventory.serialize(x) for x in InventoryX]
+            
+            return make_response(
+                {
+                    "message":"Success Get All Data History",
+                    "data": InventoryY
+                },200
+            )
+               
+        except Exception as e:
+            print(f"{e}")
+            return {'message': f'Failed {e}'}, 400
+
+
+
 
 
 ######## auth ########
