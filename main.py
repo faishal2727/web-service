@@ -131,16 +131,16 @@ class Inventory(db.Model):
             "blueGas": row.blueGas
         } 
 
-parser4ListGas = reqparse.RequestParser()
-parser4ListGas.add_argument('gasIjo', type=str, help='gasIjo', location='json', required=True)
-parser4ListGas.add_argument('brightGas', type=str, help='brightGas', location='json', required=True)
-parser4ListGas.add_argument('blueGas', type=str, help='blueGas', location='json', required=True)
+parser4ListInventory = reqparse.RequestParser()
+parser4ListInventory.add_argument('gasIjo', type=str, help='gasIjo', location='json', required=True)
+parser4ListInventory.add_argument('brightGas', type=str, help='brightGas', location='json', required=True)
+parser4ListInventory.add_argument('blueGas', type=str, help='blueGas', location='json', required=True)
 
 @api.route('/inventory')
 class NewInventory(Resource):
-    @api.expect(parser4ListGas)
+    @api.expect(parser4ListInventory)
     def post(self):
-        args = parser4ListGas.parse_args()
+        args = parser4ListInventory.parse_args()
         gasIjo = args['gasIjo']
         brightGas = args['brightGas']
         blueGas = args['blueGas']
