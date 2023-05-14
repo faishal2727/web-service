@@ -122,13 +122,15 @@ class Inventory(db.Model):
     gasIjo = db.Column(db.String(100),nullable=False)
     brightGas = db.Column(db.String(250), nullable=False)
     blueGas = db.Column(db.String(250),nullable=False)
+    createdAt = db.Column(db.DateTime, server_default=db.func.now(), nullable=False)
 
     def serialize(row):
         return {
             "id" : str(row.id),
             "gas" : row.gasIjo,
             "brightGas" : row.brightGas,
-            "blueGas": row.blueGas
+            "blueGas": row.blueGas,
+            "created_at": row.createdAt
         } 
 
 parser4ListInventory = reqparse.RequestParser()
