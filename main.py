@@ -127,7 +127,7 @@ class Inventory(db.Model):
     def serialize(row):
         return {
             "id" : str(row.id),
-            "gas" : row.gasIjo,
+            "gasIjo" : row.gasIjo,
             "brightGas" : row.brightGas,
             "blueGas": row.blueGas,
             "created_at": row.createdAt
