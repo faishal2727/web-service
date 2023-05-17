@@ -119,7 +119,7 @@ class GetAllGass(Resource):
 
 class Inventory(db.Model):
     id = db.Column(db.Integer(),primary_key=True,nullable=False)
-    gasIjo = db.Column(db.String(100),nullable=False)
+    gasIjo = db.Column(db.String(250),nullable=False)
     brightGas = db.Column(db.String(250), nullable=False)
     blueGas = db.Column(db.String(250),nullable=False)
     createdAt = db.Column(db.DateTime, server_default=db.func.now(), nullable=False)
