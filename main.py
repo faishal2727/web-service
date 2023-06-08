@@ -147,6 +147,7 @@ class NewInventory(Resource):
         brightGas = args['brightGas']
         blueGas = args['blueGas']
         
+        
         try:
             inventory = Inventory(gasIjo=gasIjo, brightGas=brightGas,  blueGas=blueGas)
 
